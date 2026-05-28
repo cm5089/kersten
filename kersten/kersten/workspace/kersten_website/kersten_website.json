@@ -7,7 +7,7 @@
   }
  ],
  "content": "[{\"id\":\"6zVvGE_xaw\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Website Visits\",\"col\":12}},{\"id\":\"_cD8O3c7OX\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Published Web Pages\",\"col\":4}},{\"id\":\"7NNFjUlDOJ\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Published Web Forms\",\"col\":4}},{\"id\":\"VcwJUwrmU2\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Website Themes Available\",\"col\":4}}]",
- "creation": "2020-03-02 14:13:51.089373",
+ "creation": "2026-05-28 11:24:16.762628",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -96,7 +96,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-01-11 23:42:31.758169",
+ "modified": "2026-05-28 11:24:16.762628",
  "modified_by": "Administrator",
  "module": "kersten",
  "name": "Kersten Website",
