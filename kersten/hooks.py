@@ -191,10 +191,10 @@ doc_events = {
 #	],
 # }
 fixtures = [
-    {"dt": "Custom Field","filters": [["module", "=","kersten"]]},
 	{"dt": "Workspace Sidebar", "filters": [["name", "in", ["Kersten Website", "Kersten CRM"]]]},
     {"dt": "Desktop Icon", "filters": [["app", "=", "kersten"]]},
     {"dt": "Workspace", "filters": [["app", "=", "kersten"]]},
+    {"dt": "Custom Field","filters": [["module", "=","kersten"]]},
 ]
 # Testing
 # -------
