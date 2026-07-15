@@ -199,7 +199,11 @@ fixtures = [
     },
     {
         "dt": "Property Setter",
-        "filters": [["doc_type", "=", "Item Website Specification"]],
+        "filters": [
+            ["doc_type", "=", "Item Website Specification"],
+            "or",
+            ["doc_type", "=", "Website Item"],
+        ],
     },
 ]
 # Testing
