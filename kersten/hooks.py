@@ -192,7 +192,18 @@ doc_events = {
 #	],
 # }
 fixtures = [
-    {"dt": "Custom Field","filters": [["module", "=","kersten"]]},
+    {
+        "dt": "Custom Field",
+        "filters": [
+            ["module", "=", "kersten"],
+            "or",
+            ["dt", "=", "Item Website Specification"],
+        ],
+    },
+    {
+        "dt": "Property Setter",
+        "filters": [["doc_type", "=", "Item Website Specification"]],
+    },
 ]
 # Testing
 # -------
