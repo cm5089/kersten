@@ -28,13 +28,15 @@
   {
    "fieldname": "specification_icon",
    "fieldtype": "Icon",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Website Icon"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-16 12:01:11.824811",
+ "modified": "2026-07-16 12:32:11.460749",
  "modified_by": "chrism@kerstenuk.com",
  "module": "kersten",
  "name": "Item Website Specification Field Type",

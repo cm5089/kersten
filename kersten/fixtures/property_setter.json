@@ -241,22 +241,6 @@
  },
  {
   "default_value": null,
-  "doc_type": "Item Website Specification",
-  "docstatus": 0,
-  "doctype": "Property Setter",
-  "doctype_or_field": "DocType",
-  "field_name": null,
-  "is_system_generated": 0,
-  "modified": "2026-07-15 14:22:21.006180",
-  "module": null,
-  "name": "Item Website Specification-main-field_order",
-  "property": "field_order",
-  "property_type": "Data",
-  "row_name": null,
-  "value": "[\"custom_field_type\", \"label\", \"description\"]"
- },
- {
-  "default_value": null,
   "doc_type": "Website Item",
   "docstatus": 0,
   "doctype": "Property Setter",
@@ -270,5 +254,37 @@
   "property_type": "Data",
   "row_name": null,
   "value": "[\"naming_series\", \"web_item_name\", \"route\", \"has_variants\", \"variant_of\", \"published\", \"custom_override_page_builder\", \"column_break_3\", \"item_code\", \"item_name\", \"item_group\", \"stock_uom\", \"column_break_11\", \"description\", \"brand\", \"display_section\", \"website_image\", \"website_image_alt\", \"column_break_13\", \"slideshow\", \"thumbnail\", \"stock_information_section\", \"website_warehouse\", \"column_break_24\", \"on_backorder\", \"section_break_17\", \"column_break_27\", \"short_description\", \"web_long_description\", \"display_additional_information_section\", \"show_tabbed_section\", \"tabs\", \"recommended_items_section\", \"recommended_items\", \"offers_section\", \"offers\", \"section_break_6\", \"ranking\", \"set_meta_tags\", \"column_break_22\", \"website_item_groups\", \"advanced_display_section\", \"website_content_section\", \"content_type\", \"full_width\", \"page_building_blocks\", \"jodit_editor\", \"website_content\", \"website_filters\", \"filter_by_application_type\", \"filter_by_power_unit_type\", \"column_break_53\", \"filter_by_attachment_type\", \"select_documents\", \"select_attachment_type\", \"custom_section_break_u8p43\", \"custom_get_faq_questions\", \"faq\", \"faq_group\", \"custom_specification\", \"custom_custom_section_break_u8p43\", \"website_specifications\", \"copy_from_item_group\"]"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Item Website Specification",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocType",
+  "field_name": null,
+  "is_system_generated": 0,
+  "modified": "2026-07-16 12:22:55.200516",
+  "module": null,
+  "name": "Item Website Specification-main-field_order",
+  "property": "field_order",
+  "property_type": "Data",
+  "row_name": null,
+  "value": "[\"custom_field_type\", \"custom_website_icon\", \"label\", \"description\"]"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Item Website Specification",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "label",
+  "is_system_generated": 0,
+  "modified": "2026-07-16 12:22:55.345742",
+  "module": null,
+  "name": "Item Website Specification-label-in_list_view",
+  "property": "in_list_view",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "0"
  }
 ]
