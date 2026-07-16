@@ -195,11 +195,15 @@ fixtures = [
             ["module", "=", "kersten"],
             "or",
             ["dt", "=", "Item Website Specification"],
+            "or",
+            ["dt", "=", "Website Item"],
         ],
     },
     {
         "dt": "Property Setter",
         "filters": [
+            ["module", "=", "kersten"],
+            "or",
             ["doc_type", "=", "Item Website Specification"],
             "or",
             ["doc_type", "=", "Website Item"],
