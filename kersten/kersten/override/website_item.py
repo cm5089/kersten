@@ -32,6 +32,9 @@ class WebsiteItem(_WebsiteGenerator):
 	def has_specification(self):
 		return (self.website_specifications is not None and len(self.website_specifications) > 0)
 
+	def has_long_description(self):
+		return frappe.utils.strip_html(self.web_long_description or '') != ''
+
 
 	def get_tabs(self):
 		tab_values = {}
