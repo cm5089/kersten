@@ -17,6 +17,7 @@ class WebsiteItem(_WebsiteGenerator):
 	def get_context(self, context):
 		context = super().get_context(context)
 		context.full_witdh = 1
+		context.override_page_builder = self.custom_override_page_builder
 
 		website_itemgroup = None
 
@@ -27,6 +28,10 @@ class WebsiteItem(_WebsiteGenerator):
 			website_itemgroup, from_item=True
 		)  # breadcumbs
 		return context
+
+	def has_specification(self):
+		return (self.website_specifications is not None and len(self.website_specifications) > 0)
+
 
 	def get_tabs(self):
 		tab_values = {}
