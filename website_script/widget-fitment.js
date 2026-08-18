@@ -1,3 +1,18 @@
+/* --- [0] GLOBAL UTILITIES & COMPACT STYLING (Safe-Wrapped) --- */
+(function() {
+    // 3. WIDGET RESIZER
+    if (window.location.pathname.includes('fitment-tool-embed')) {
+        const sendHeight = () => {
+            const height = document.body.scrollHeight;
+            window.parent.postMessage({ 'kerstenWidgetHeight': height }, "*");
+        };
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
+        document.addEventListener('click', () => setTimeout(sendHeight, 200));
+    }
+})();
+
+
 /* --- WIDGET AUTO-RESIZER ENGINE (SENDER) --- */
 const sendHeightToParent = () => {
     if (window.location.pathname.includes('fitment-tool-embed')) {
