@@ -153,25 +153,6 @@ window.addEventListener('load', sendHeightToParent);
 window.addEventListener('resize', sendHeightToParent);
 document.addEventListener('click', () => setTimeout(sendHeightToParent, 200));
 
-/** 0. UI STABILIZER & WIDGET STYLING **/
-const stylePatch = document.createElement('style');
-stylePatch.innerHTML = `
-    img { height: auto; max-width: 100%; aspect-ratio: attr(width) / attr(height); }
-    .havs-compliance-widget, .pesticide-load-widget, .logistics-bar { color: #222 !important; font-family: sans-serif; }
-    .youtube-player { position: relative; cursor: pointer; display: block; overflow: hidden; background: #000; }
-    .youtube-player img { opacity: 0.8; transition: opacity 0.2s; width: 100%; display: block; }
-    .youtube-player:hover img { opacity: 1; }
-    .play { position: absolute; top: 50%; left: 50%; width: 68px; height: 48px; background-color: #FF0000; border-radius: 12px; transform: translate(-50%, -50%); z-index: 10; opacity: 0.9; transition: all 0.2s; }
-    .play:hover { opacity: 1; background-color: #CC0000; }
-    .play:before { content: ""; position: absolute; top: 50%; left: 55%; transform: translate(-50%, -50%); border-style: solid; border-width: 10px 0 10px 18px; border-color: transparent transparent transparent #FFFFFF; }
-    .kersten-dealer-locator { min-height: 165px; display: block; clear: both; margin: 30px 0; }
-    .logistics-bar { min-height: 90px; display: block; clear: both; margin: 40px 0 15px 0; }
-    .havs-compliance-widget { min-height: 280px; display: block; clear: both; margin: 30px 0; }
-    .pesticide-load-widget { min-height: 250px; display: block; clear: both; margin: 30px 0; }
-    .kersten-fitment-wizard { min-height: 200px; display: block; clear: both; margin: 30px 0; }
-`;
-document.head.appendChild(stylePatch);
-
 
 /* --- DYNAMIC SITEMAP INJECTOR --- */
 if (window.location.pathname.replace(/\/$/, "") === '/sitemap') {
