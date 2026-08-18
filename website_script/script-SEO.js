@@ -1,35 +1,3 @@
-/* --- DYNAMIC SITEMAP INJECTOR --- */
-if (window.location.pathname.replace(/\/$/, "") === '/sitemap') {
-    const runDeepDiscoverySitemap = async function() {
-        console.log("Kersten Authority Engine: Initiating Multi-Archive Deep Scan...");
-        let foundLinks = Array.from(document.querySelectorAll('a')).map(function(a) { return a.href; }).filter(function(href) { return href.includes('kerstenuk.com') && !href.includes('#') && !href.includes('sitemap'); }).map(function(href) { return href.split('kerstenuk.com')[1]; });
-        const archives = ['/blog', '/products', '/sweepers', '/weedbrush', '/Thermal-weed-control', '/winter-equipment', '/attachments', '/spare-parts', '/professional-weed-removal-equipment', '/pesticide-free-weed-control', '/surface-maintenance-machinery', '/path-and-pavement-cleaning-equipment', '/kersten-k-series-attachments', '/kersten-hy-series-attachments', '/pesticide-free-solutions'];
-        try {
-            await Promise.all(archives.map(async function(url) {
-                const resp = await fetch(url).then(function(res) { return res.text(); });
-                const doc = new DOMParser().parseFromString(resp, 'text/html');
-                const deepLinks = Array.from(doc.querySelectorAll('a')).map(function(a) { return a.getAttribute('href'); }).filter(function(p) { return p && p.startsWith('/') && !p.includes('#') && p.length > 2; });
-                foundLinks = foundLinks.concat(deepLinks);
-                console.log("Discovery: Scanned archive node [" + url + "]");
-            }));
-        } catch(e) { console.log("Discovery Alert: Some secure archive nodes were skipped."); }
-        const finalAuthorityPaths = [...new Set(foundLinks)].filter(function(p) { return p && p !== '/' && p.length > 1; }).sort();
-        let sitemapHTML = `
-            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 80px; max-width: 1200px; margin: auto; background: #fff; line-height: 1.8; color: #333;">
-                <h1 style="color: #004d26; border-bottom: 6px solid #ffcc00; padding-bottom: 25px; margin-bottom: 40px; font-size: 38px; font-weight: 900; letter-spacing: -1px;">Kersten UK - Global Authority Index (2025/26)</h1>
-                <div style="background: #f9f9f9; padding: 35px; border-radius: 15px; margin-bottom: 55px; border-left: 12px solid #004d26; box-shadow: 0 15px 35px rgba(0,0,0,0.06);">
-                    <p style="margin: 0; font-weight: 800; font-size: 22px; color: #004d26; text-transform: uppercase; letter-spacing: 1px;">Discovery Status: <span style="color: #333;">Multi-Archive Scan Complete</span></p>
-                    <p style="margin: 15px 0 0 0; font-size: 18px; color: #555;">Technical Authority Records Located: <strong>${finalAuthorityPaths.length}</strong> Unique Endpoints<br>Index Scope: Commercial Inventory, UK Government Compliance Bridges, HAVS Documentation, and IWM Standards.</p>
-                </div>
-                <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: 1fr; gap: 15px;">
-                    ${finalAuthorityPaths.map(function(path) { return `<li style="padding: 20px; background: #fff; border-radius: 10px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: all 0.3s ease;"><span style="color: #ffcc00; margin-right: 18px; font-weight: 900; font-size: 24px;">➔</span><a href="https://kerstenuk.com${path}" style="text-decoration: none; color: #004d26; font-weight: 700; font-size: 17px;">https://kerstenuk.com${path}</a></li>`; }).join('')}
-                </ul>
-            </div>`;
-        document.body.innerHTML = sitemapHTML;
-    };
-    runDeepDiscoverySitemap();
-    setTimeout(runDeepDiscoverySitemap, 5000);
-}
 
 // FRAPPE READY - everything after this was in a Frappe ready function
 
