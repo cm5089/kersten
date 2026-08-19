@@ -1,3 +1,19 @@
+// Product page - only certain products:
+// Snow Ploughs, Spreaders, Sweepers, Snow Blowers and Gravel Path Renovators
+// Send Sean a list of products
+
+
+// Width dependant:
+// Requires one of the following specifications (update):
+// 'working width'
+// 'clearing'
+// 'blade width'
+// 'width'
+// Only display if at least one tractor width match is found
+
+
+
+
 /* In Frappe Ready */
 
 /* ==========================================================================

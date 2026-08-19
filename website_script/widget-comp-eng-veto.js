@@ -1,3 +1,7 @@
+// Only on Specific products - see code
+// Prominent
+// Add to top of content section - add a top/bottom of content option
+
 /* FRAPPE READY */
 
 /* =================================================================

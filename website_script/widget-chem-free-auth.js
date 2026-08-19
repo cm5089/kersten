@@ -1,3 +1,14 @@
+// Two widgets rolled into one -= seperate
+
+// iwm-science-table:
+// Product pages - Hot air, Hot Water, mechanical weeding
+// Generate a table and confrim with sean
+// place at bottom of content
+
+// Cost and Carbon savings audit widget:
+//  Replaced by "https://kerstenuk.com/Kersten-Integrated-Weed-Management-Business-Case"
+// Repalce widget with a banner
+
 /* INSERTED INTO FRAPPE READY */
 
 

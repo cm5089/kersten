@@ -1,3 +1,7 @@
+// Product page - after attachments/accessories
+// Home page
+// Compatibility Centre page
+
 /* --- [0] GLOBAL UTILITIES & COMPACT STYLING (Safe-Wrapped) --- */
 (function() {
     // 3. WIDGET RESIZER

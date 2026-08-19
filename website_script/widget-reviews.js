@@ -1,3 +1,8 @@
+// About us page
+// Product pages - injuect into template
+// Home Page
+// Extract out into Web part
+
 
 /* ================================================================= */
 /* [P-FINAL] INDESTRUCTIBLE REVIEW ENGINE (Footer-Locked Version)    */

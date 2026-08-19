@@ -1,3 +1,5 @@
+// Product Page - certain ones - under specification table
+
 /* --- [K] DYNAMIC HAVS SAFETY CHALLENGER (v124.1 - FIXED SCOPE) --- */
 
 let vibrationLevel = 0;
