@@ -1,24 +1,38 @@
-// Only on Specific products - see code
-// Prominent
-// Add to top of content section - add a top/bottom of content option
-
-/* FRAPPE READY */
-
-/* =================================================================
-   [R] THE COMPETITIVE ENGINEERING VETO (v2026.36 - STICKY BOTTOM DEPLOYMENT)
-   -----------------------------------------------------------------
-   Changes:
-   1. STRICT WHITELIST: Only runs on specific product/hot water paths.
-   2. BOTTOM PLACEMENT: Injected at the end of the content.
-   3. ORIGINAL STYLING: 100% match to the original design and data.
-   ================================================================= */
+﻿<!DOCTYPE html>
+<!--
+  Kersten Competitive Engineering Veto Widget
+  Usage in ERPNext:
+  1. Create a Web Template Section, or paste into a Web Page HTML block.
+  2. Use web_block in Jinja: {{ web_block({"template": "Competitive Engineering Veto", "values": {}}) }}
+  3. Or paste widget-comp-eng-veto-embed-snippet.html into a Custom HTML block.
+  4. Optional: force comparison type with data-veto-context="kubota|hatz|electric"
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitive Engineering Veto</title>
+<style>
+  #kersten-veto-table-root {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  #kersten-veto-table-root *, #kersten-veto-table-root *::before, #kersten-veto-table-root *::after {
+    box-sizing: border-box;
+  }
+</style>
+</head>
+<body>
+<div id="kersten-veto-table-root" data-veto-context="hatz"></div>
+<script>
+// Standalone Competitive Engineering Veto — mount via #kersten-veto-table-root
+// Optional: set data-veto-context="kubota|hatz|electric" on the root element
 
 (function() {
-    console.log("KERSTEN VETO: Script Loaded v2026.36 (Strict Bottom Placement, Original Style)");
-
-    // 1. DATA MATRIX (Unchanged)
     const comparisonLogic = {
-        "kubota": { // PRO 10 (Twin Cyl)
+        kubota: {
             title: "🚜 HEAD-TO-HEAD: INDUSTRIAL VS. AMENITY",
             headers: ["Comparison Metric", "Kersten (Twin-Cyl Kubota)", "Standard Amenity Unit"],
             rows: [
@@ -32,7 +46,7 @@
                 ["OPEX / Cost", "<strong>£ (Water Only)</strong>", "<strong>£££ (Consumables and Additives)</strong>"]
             ]
         },
-        "hatz": { // PRO 20 (Single Cyl) & GENERIC THERMAL
+        hatz: {
             title: "⚙️ TORQUE BATTLE: DIESEL VS. PETROL",
             headers: ["Performance Metric", "Kersten (Hatz Diesel)", "Standard Petrol / Additive Unit"],
             rows: [
@@ -47,7 +61,7 @@
                 ["OPEX / Cost", "<strong>£ (Water Only)</strong>", "<strong>£££ (Consumables and Additives)</strong>"]
             ]
         },
-        "electric": { // SP SERIES
+        electric: {
             title: "⚡ EMISSIONS: TRUE EV VS. HYBRID",
             headers: ["Eco Metric", "Kersten Electric (Pure)", "Hybrid / Generator Unit"],
             rows: [
@@ -63,55 +77,37 @@
         }
     };
 
-    // 2. CONTEXT ENGINE (Strict Whitelist Approach)
-    const determineContext = () => {
+    const determineContext = (root) => {
+        const forced = (root.dataset.vetoContext || '').toLowerCase();
+        if (forced && comparisonLogic[forced]) return forced;
+
         const pageText = (document.title + " " + document.body.innerText).toLowerCase();
-        const path = window.location.pathname.toLowerCase();
 
-        // HARD BLOCK: Prevent appearing on generic pages
-        const forbiddenPaths = ['/', '/index', '/contact', '/about', '/news', '/gallery'];
-        if (forbiddenPaths.includes(path) || path === '') return null;
-
-        // STRICT WHITELIST: Only trigger if relevant keywords are in the URL path
-        // Adjust these keywords if your product page URLs use different terms!
-        const isTargetPage = path.includes('product') || path.includes('weed') || path.includes('hot-water');
-        if (!isTargetPage) return null;
-
-        // LOGIC ASSIGNMENT
         if (pageText.includes("pro 10") || (pageText.includes("kubota") && pageText.includes("diesel"))) return "kubota";
         if (pageText.includes("pro 20") || pageText.includes("hatz") || pageText.includes("dual operator")) return "hatz";
         if (pageText.includes("sp 3") || pageText.includes("sp 6") || pageText.includes("battery powered")) return "electric";
 
-        // GENERIC THERMAL (Fallback)
-        const isThermalProduct = (pageText.includes("eco weedkiller") || pageText.includes("hot water") || pageText.includes("steam")) && (pageText.includes("specification") || pageText.includes("technical"));
+        const isThermalProduct = (pageText.includes("eco weedkiller") || pageText.includes("hot water") || pageText.includes("steam"))
+            && (pageText.includes("specification") || pageText.includes("technical"));
         if (isThermalProduct) return "hatz";
 
         return null;
     };
 
-    // 3. INJECTION ENGINE
-    const injectVeto = () => {
-        // CHECK: If on blog, ask the controller (kept from your original script)
-        if (window.location.href.includes('/blog')) {
-            const ctx = window.kerstenBlogContextCache || (typeof window.getKerstenBlogContext === 'function' ? window.getKerstenBlogContext() : {});
-            if (ctx.tool !== 'veto') return false;
+    const loadCompEngVeto = (container) => {
+        const context = determineContext(container);
+        if (!context) {
+            container.style.display = 'none';
+            return;
         }
-
-        if (document.getElementById('kersten-veto-table')) return true;
-
-        const context = determineContext();
-        if (!context) return false;
 
         const data = comparisonLogic[context];
 
-        const vetoDiv = document.createElement('div');
-        vetoDiv.id = 'kersten-veto-table';
+        container.id = 'kersten-veto-table';
+        container.className = 'kersten-comp-eng-veto';
+        container.style.cssText = "margin: 60px auto 40px auto; max-width: 1200px; border: 2px solid #004d26; border-radius: 8px; overflow: hidden; background: white; font-family: sans-serif; clear: both; box-shadow: 0 5px 15px rgba(0,0,0,0.08); display: block; box-sizing: border-box; width: 100%;";
 
-        // Exact original CSS styling restored
-        vetoDiv.style.cssText = "margin: 60px auto 40px auto; max-width: 1200px; border: 2px solid #004d26; border-radius: 8px; overflow: hidden; background: white; font-family: sans-serif; clear: both; box-shadow: 0 5px 15px rgba(0,0,0,0.08); display: block;";
-
-        // Exact original HTML structure restored
-        vetoDiv.innerHTML = `
+        container.innerHTML = `
             <div style="background: #004d26; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-weight: 800; font-size: 16px; letter-spacing: 0.5px; text-transform: uppercase;">${data.title}</span>
                 <span style="background: #c0392b; color: white; padding: 4px 8px; border-radius: 4px; font-weight: 900; font-size: 12px;">VS</span>
@@ -140,27 +136,23 @@
                 </table>
             </div>
         `;
+    };
 
-        // PLACEMENT: Pushed directly to the bottom (just above the footer)
-        const footer = document.querySelector('footer') || document.querySelector('.footer');
-        if (footer && footer.parentNode) {
-            footer.parentNode.insertBefore(vetoDiv, footer);
-            console.log("KERSTEN VETO: Placed above footer.");
-            return true;
-        } else {
-            document.body.appendChild(vetoDiv);
-            console.log("KERSTEN VETO: Appended to body end.");
-            return true;
+    const mountWidget = () => {
+        const root = document.getElementById('kersten-veto-table-root');
+        if (root && !root.dataset.initialized) {
+            root.dataset.initialized = 'true';
+            loadCompEngVeto(root);
         }
     };
 
-    // PERSISTENCE
-    let retryCount = 0;
-    const runner = setInterval(() => {
-        retryCount++;
-        if (injectVeto() || retryCount > 30) {
-            clearInterval(runner);
-        }
-    }, 500);
-
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mountWidget);
+    } else {
+        mountWidget();
+    }
 })();
+
+</script>
+</body>
+</html>
