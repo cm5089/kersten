@@ -1,52 +1,39 @@
-// Product pages - Hot air, Hot Water, mechanical weeding
-// Generate a table and place at bottom of content
+﻿<!DOCTYPE html>
+<!--
+  Kersten IWM Science Table Widget
+  Usage in ERPNext:
+  1. Create a Web Template Section, or paste into a Web Page HTML block.
+  2. Use web_block in Jinja: {{ web_block({"template": "IWM Science Table", "values": {}}) }}
+  3. Or paste widget-iwm-science-table-embed-snippet.html into a Custom HTML block.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IWM Science Table</title>
+<style>
+  #iwm-science-table-root {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  #iwm-science-table-root *, #iwm-science-table-root *::before, #iwm-science-table-root *::after {
+    box-sizing: border-box;
+  }
+</style>
+</head>
+<body>
+<div id="iwm-science-table-root"></div>
+<script>
+// Standalone IWM Science Table — mount via #iwm-science-table-root in a Web Template
 
-/* --- IWM SCIENCE TABLE (v5.10) --- */
 (function() {
-    if (window.__kerstenIwmScienceTableStarted) {
-        console.log("Kersten IWM Science Table: Duplicate injector blocked.");
-        return;
-    }
-    window.__kerstenIwmScienceTableStarted = true;
-
-    function cleanupDuplicateWidgets() {
-        Array.from(document.querySelectorAll('#iwm-science-table')).slice(1).forEach(el => el.remove());
-    }
-
-    function widgetAlreadyExists() {
-        return !!document.getElementById('iwm-science-table');
-    }
-
-    if (window.location.pathname === '/' || window.location.pathname === '/index') return;
-    if (window.location.href.includes('integrated-weed-management-trial-bracknell')) return;
-
-    const targetPages = ["chemical-free", "integrated-weed", "pesticide-free", "thermal", "hot-water", "ewk", "hot-air", "electricity", "ripagreen", "zasso"];
-    const isBlog = window.location.href.includes('/blog');
-
-    if (!isBlog && !targetPages.some(page => window.location.href.toLowerCase().includes(page))) return;
-
-    const injectWidget = () => {
-        if (isBlog) {
-            const ctx = window.kerstenBlogContextCache || (window.getKerstenBlogContext ? window.getKerstenBlogContext() : { tool: 'audit' });
-            if (ctx.tool !== 'audit') return;
-
-            const cIntro = document.querySelector('.blog-content, .web-page-content, .product-description, .from-markdown, article, #main-content');
-            const blogText = (document.title + " " + (cIntro ? cIntro.innerText : document.body.innerText)).toLowerCase();
-            if (!blogText.includes('hot water') && !blogText.includes('hot air')) return;
-        }
-
-        cleanupDuplicateWidgets();
-        if (widgetAlreadyExists()) return true;
-
-        const productTable = document.querySelector('.specification-table, .product-specs, .from-markdown table, .page_content table');
-        const contentIntro = document.querySelector('.blog-content, .web-page-content, .product-description, .from-markdown, article, #main-content');
-
-        if (!productTable && !contentIntro && !document.querySelector('.website-list')) return;
-
-        const tableContainer = document.createElement('div');
-        tableContainer.id = 'iwm-science-table';
-        tableContainer.style.cssText = "margin: 40px auto; max-width: 1200px; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; font-family: sans-serif; clear: both; border: 1px solid #eee; width: 100%; display: block;";
-        tableContainer.innerHTML = `
+    const loadIwmScienceTable = (container) => {
+        container.id = 'iwm-science-table';
+        container.className = 'kersten-iwm-science-table';
+        container.style.cssText = "margin: 40px auto; max-width: 1200px; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; font-family: sans-serif; clear: both; border: 1px solid #eee; width: 100%; display: block; box-sizing: border-box;";
+        container.innerHTML = `
             <div style="background: #004d26; color: white; padding: 20px;">
                 <h3 style="margin:0; font-size: 20px; font-weight: bold; letter-spacing: 0.5px;">🧪 Technical Comparison: Professional Weed Control Methods</h3>
                 <p style="margin: 5px 0 0 0; font-size: 13px; opacity: 0.9;">Engineering data for Council Grounds and Commercial Contracting procurement.</p>
@@ -99,53 +86,9 @@
                 <strong>💡 IWM Technical Insight:</strong> To maximise efficiency, Kersten recommends a <strong>"Mechanical Pass"</strong> first. Removing the organic growth medium (silt/soil) reduces the frequency of thermal treatments by up to 50%, significantly lowering annual operational costs.
             </div>`;
 
-        const isProductPage = document.querySelector('.product-price, .cart-btn, [itemprop="offers"], .item-price');
-        const pTable = productTable || document.querySelector('.specification-table, .product-specs');
-        const cIntro = contentIntro || document.querySelector('.blog-content, .web-page-content');
+        if (document.getElementById('iwm-science-table-schema')) return;
 
-        if (isBlog) {
-            if (cIntro) {
-                cIntro.appendChild(tableContainer);
-            } else {
-                const mainTarget = document.querySelector('main, #page-content, article') || document.body;
-                mainTarget.appendChild(tableContainer);
-            }
-        } else if (isProductPage) {
-            if (pTable && pTable.parentNode) {
-                pTable.parentNode.insertBefore(tableContainer, pTable.nextSibling);
-            } else if (cIntro) {
-                const paragraphs = cIntro.querySelectorAll('p');
-                if (paragraphs.length > 2 && paragraphs[2].parentNode) {
-                    paragraphs[2].parentNode.insertBefore(tableContainer, paragraphs[2]);
-                } else {
-                    cIntro.insertBefore(tableContainer, cIntro.firstChild);
-                }
-            }
-        } else {
-            const gridContainer = document.querySelector('.website-list, .item-list, .products-grid');
-            const itemCards = document.querySelectorAll('.item-card, .product-card, .item-row');
-
-            if (gridContainer && gridContainer.parentNode) {
-                gridContainer.parentNode.insertBefore(tableContainer, gridContainer.nextSibling);
-            } else if (itemCards.length > 0) {
-                const lastCard = itemCards[itemCards.length - 1];
-                const container = lastCard.closest('.row') || lastCard.parentNode;
-                if (container && container.parentNode) {
-                    container.parentNode.insertBefore(tableContainer, container.nextSibling);
-                } else {
-                    lastCard.parentNode.insertBefore(tableContainer, lastCard.nextSibling);
-                }
-            } else {
-                const backupTarget = document.querySelector('footer, .web-footer, #footer') || document.querySelector('#page-content, main, .page_content');
-                if (backupTarget && backupTarget.parentNode) {
-                    backupTarget.parentNode.insertBefore(tableContainer, backupTarget);
-                } else {
-                    document.body.appendChild(tableContainer);
-                }
-            }
-        }
-
-        const tableRowsArr = tableContainer.querySelectorAll('tbody tr');
+        const tableRowsArr = container.querySelectorAll('tbody tr');
         const dynamicFaqs = [];
 
         tableRowsArr.forEach(row => {
@@ -161,6 +104,7 @@
         });
 
         const faqScript = document.createElement('script');
+        faqScript.id = 'iwm-science-table-schema';
         faqScript.type = "application/ld+json";
         faqScript.text = JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": dynamicFaqs });
         document.head.appendChild(faqScript);
@@ -177,21 +121,23 @@
             ]
         });
         document.head.appendChild(semanticScript);
-
-        cleanupDuplicateWidgets();
-        return true;
     };
 
-    let checkCount = 0;
-    const runEnforcer = setInterval(() => {
-        cleanupDuplicateWidgets();
-        if (!widgetAlreadyExists()) {
-            injectWidget();
+    const mountWidget = () => {
+        const root = document.getElementById('iwm-science-table-root');
+        if (root && !root.dataset.initialized) {
+            root.dataset.initialized = 'true';
+            loadIwmScienceTable(root);
         }
-        checkCount++;
-        if (checkCount > 10 || widgetAlreadyExists()) {
-            cleanupDuplicateWidgets();
-            clearInterval(runEnforcer);
-        }
-    }, 500);
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mountWidget);
+    } else {
+        mountWidget();
+    }
 })();
+
+</script>
+</body>
+</html>
