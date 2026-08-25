@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "UUID",
  "creation": "2026-07-15 13:04:01.452034",
@@ -36,7 +37,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-20 12:42:36.081216",
+ "modified": "2026-08-25 13:35:24.249459",
  "modified_by": "chrism@kerstenuk.com",
  "module": "kersten",
  "name": "Item Website Specification Field Type",
