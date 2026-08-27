@@ -13,10 +13,11 @@ class WebsiteItem(_WebsiteGenerator):
 		template="templates/generators/item/item.html",
 		no_cache=1,
 	)
-	
+
 	def get_context(self, context):
 		context = super().get_context(context)
 		context.full_witdh = 1
+		context.override_page_builder = self.custom_override_page_builder
 
 		website_itemgroup = None
 
@@ -28,6 +29,13 @@ class WebsiteItem(_WebsiteGenerator):
 		)  # breadcumbs
 		return context
 
+	def has_specification(self):
+		return (self.website_specifications is not None and len(self.website_specifications) > 0)
+
+	def has_long_description(self):
+		return frappe.utils.strip_html(self.web_long_description or '') != ''
+
+
 	def get_tabs(self):
 		tab_values = {}
 
@@ -36,7 +44,7 @@ class WebsiteItem(_WebsiteGenerator):
 			website_template = self.web_long_description
 		elif frappe.utils.strip_html(self.description or ''):
 			website_template = self.description
-		
+
 		doc = frappe.get_doc("Item", self.item_code)
 		index = 1
 
@@ -61,7 +69,7 @@ class WebsiteItem(_WebsiteGenerator):
 			)
 
 			index += 1
-		
+
 		if doc.optional_accessories:
 			tab_values[f"tab_{index}_title"] = "Accessories"
 			tab_values[f"tab_{index}_content"] = frappe.render_template(
@@ -111,7 +119,7 @@ def invalidate_cache_for_web_item(doc):
 			]
 		)
 	)
-	 
+
 
 	for item_group in website_item_groups:
 		invalidate_cache_for(doc, item_group)
@@ -125,7 +133,7 @@ def invalidate_cache_for_web_item(doc):
 def invalidate_cache_for(doc, item_group=None):
 	if not item_group:
 		item_group = doc.item_group
-	
+
 	if doc.doctype == "Website Itemgroup":
 		item_group = doc.name
 
@@ -133,7 +141,7 @@ def invalidate_cache_for(doc, item_group=None):
 			item_group_name = frappe.db.get_value("Website Itemgroup", d.get("name"))
 			if item_group_name:
 				clear_cache(frappe.db.get_value("Website Itemgroup", item_group_name, "route"))
-	
+
 	if doc.doctype == "Website Item":
 		for row in doc.get("website_item_groups"):
 			item_group = row.website_itemgroup
@@ -142,7 +150,7 @@ def invalidate_cache_for(doc, item_group=None):
 				item_group_name = frappe.db.get_value("Website Itemgroup", d.get("name"))
 				if item_group_name:
 					clear_cache(frappe.db.get_value("Website Itemgroup", item_group_name, "route"))
-					
+
 # @frappe.whitelist()
 # def get_faq_questions_from_website_itemgroup(doc):
 # 	doc = frappe._dict(frappe.parse_json(doc))
@@ -150,10 +158,10 @@ def invalidate_cache_for(doc, item_group=None):
 # 	for row in doc.get('website_item_groups', []):
 # 		if row.get("website_itemgroup"):
 # 			website_itemgroup_doc = frappe.get_doc("Website Itemgroup", row['website_itemgroup'])
-			
+
 # 			for faq in website_itemgroup_doc.faq:
 # 				faq_list.append({
 # 					'question': faq.question,
 # 				})
-	
+
 # 	return faq_list
