@@ -35,6 +35,16 @@ class WebsiteItem(_WebsiteGenerator):
 	def has_long_description(self):
 		return frappe.utils.strip_html(self.web_long_description or '') != ''
 
+	def has_recommended_items(self, group=None):
+		published_recommended_items = [
+			item for item in self.recommended_items if frappe.db.get_value("Website Item", item.website_item, "published")
+			]
+		has_recommended_items = published_recommended_items and len(published_recommended_items) > 0
+		if group:
+			has_recommended_items = has_recommended_items and any(
+				item.custom_group == group for item in published_recommended_items
+			)
+		return has_recommended_items
 
 	def get_tabs(self):
 		tab_values = {}
