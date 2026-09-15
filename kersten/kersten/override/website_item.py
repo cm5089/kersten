@@ -21,7 +21,8 @@ class WebsiteItem(_WebsiteGenerator):
 		# Load data for Jinga templates
 		context.override_page_builder = self.custom_override_page_builder
 		if self.custom_override_page_builder:
-			context.related_items_by_groups = self.get_recommended_items_by_group()
+			context.related_items_by_groups = self.group_and_filter_website_items(self.recommended_items)
+			context.compatible_items_by_groups = self.group_and_filter_website_items(self.custom_compatible_products)
 
 		website_itemgroup = None
 
@@ -47,17 +48,15 @@ class WebsiteItem(_WebsiteGenerator):
 	def has_long_description(self):
 		return frappe.utils.strip_html(self.web_long_description or '') != ''
 
-	def get_recommended_items_by_group(self):
-		published_recommended_items = self.filter_unpublished_website_items(self.recommended_items)
+	def group_and_filter_website_items(self, items):
+		published_recommended_items = [item for item in items if frappe.db.get_value("Website Item", item.website_item, "published")]
 		grouped_items = {}
 		for item in published_recommended_items:
-			if item.custom_group not in grouped_items.keys():
-				grouped_items[item.custom_group] = []
-			grouped_items[item.custom_group].append(item.website_item)
+			group = item.custom_group if hasattr(item, "custom_group") else item.compatibility_type
+			if group not in grouped_items.keys():
+				grouped_items[group] = []
+			grouped_items[group].append(item.website_item)
 		return grouped_items
-
-	def filter_unpublished_website_items(self, items):
-		return [item for item in items if frappe.db.get_value("Website Item", item.website_item, "published")]
 
 	def get_tabs(self):
 		tab_values = {}
