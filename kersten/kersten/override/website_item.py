@@ -17,7 +17,11 @@ class WebsiteItem(_WebsiteGenerator):
 	def get_context(self, context):
 		context = super().get_context(context)
 		context.full_witdh = 1
+
+		# Load data for Jinga templates
 		context.override_page_builder = self.custom_override_page_builder
+		if self.custom_override_page_builder:
+			context.related_items_by_groups = self.get_recommended_items_by_group()
 
 		website_itemgroup = None
 
@@ -28,6 +32,14 @@ class WebsiteItem(_WebsiteGenerator):
 			website_itemgroup, from_item=True
 		)  # breadcumbs
 		return context
+
+	def get_clean_route(self):
+		route = self.route
+		if not route.startswith("/"):
+			route = "/" + route
+		if route.endswith("/"):
+			route = route[:-1]
+		return route
 
 	def has_specification(self):
 		return (self.website_specifications is not None and len(self.website_specifications) > 0)
@@ -41,7 +53,7 @@ class WebsiteItem(_WebsiteGenerator):
 		for item in published_recommended_items:
 			if item.custom_group not in grouped_items.keys():
 				grouped_items[item.custom_group] = []
-			grouped_items[item.custom_group].append(item)
+			grouped_items[item.custom_group].append(item.website_item)
 		return grouped_items
 
 	def filter_unpublished_website_items(self, items):
