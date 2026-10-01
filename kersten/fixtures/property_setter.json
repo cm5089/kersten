@@ -321,34 +321,18 @@
  },
  {
   "default_value": null,
-  "doc_type": "Recommended Items",
-  "docstatus": 0,
-  "doctype": "Property Setter",
-  "doctype_or_field": "DocType",
-  "field_name": null,
-  "is_system_generated": 0,
-  "modified": "2026-09-11 16:47:11.183721",
-  "module": null,
-  "name": "Recommended Items-main-field_order",
-  "property": "field_order",
-  "property_type": "Data",
-  "row_name": null,
-  "value": "[\"website_item\", \"website_item_name\", \"column_break_2\", \"item_code\", \"custom_group\", \"more_information_section\", \"route\", \"column_break_6\", \"website_item_image\", \"website_item_thumbnail\"]"
- },
- {
-  "default_value": null,
   "doc_type": "Website Item",
   "docstatus": 0,
   "doctype": "Property Setter",
   "doctype_or_field": "DocType",
   "field_name": null,
   "is_system_generated": 0,
-  "modified": "2026-09-15 16:14:16.574477",
+  "modified": "2026-10-01 21:39:04.621789",
   "module": null,
   "name": "Website Item-main-field_order",
   "property": "field_order",
   "property_type": "Data",
   "row_name": null,
-  "value": "[\"naming_series\", \"web_item_name\", \"route\", \"has_variants\", \"variant_of\", \"published\", \"custom_override_page_builder\", \"column_break_3\", \"item_code\", \"item_name\", \"item_group\", \"stock_uom\", \"column_break_11\", \"description\", \"brand\", \"display_section\", \"website_image\", \"website_image_alt\", \"column_break_13\", \"slideshow\", \"thumbnail\", \"stock_information_section\", \"website_warehouse\", \"column_break_24\", \"on_backorder\", \"section_break_17\", \"column_break_27\", \"short_description\", \"web_long_description\", \"display_additional_information_section\", \"show_tabbed_section\", \"tabs\", \"recommended_items_section\", \"offers_section\", \"offers\", \"section_break_6\", \"ranking\", \"set_meta_tags\", \"column_break_22\", \"website_item_groups\", \"advanced_display_section\", \"website_content_section\", \"content_type\", \"full_width\", \"page_building_blocks\", \"jodit_editor\", \"website_content\", \"website_filters\", \"filter_by_application_type\", \"filter_by_power_unit_type\", \"column_break_53\", \"filter_by_attachment_type\", \"select_documents\", \"select_attachment_type\", \"custom_section_break_u8p43\", \"custom_get_faq_questions\", \"faq\", \"faq_group\", \"custom_specification\", \"custom_custom_section_break_u8p43\", \"website_specifications\", \"copy_from_item_group\", \"custom_measurements_diagram\", \"custom_related_items\", \"custom_column_break_orp85\", \"recommended_items\", \"custom_compatibility\", \"custom_compatible_products\"]"
+  "value": "[\"naming_series\", \"web_item_name\", \"route\", \"has_variants\", \"variant_of\", \"published\", \"custom_override_page_builder\", \"column_break_3\", \"item_code\", \"item_name\", \"item_group\", \"stock_uom\", \"column_break_11\", \"description\", \"brand\", \"display_section\", \"website_image\", \"website_image_alt\", \"column_break_13\", \"slideshow\", \"thumbnail\", \"stock_information_section\", \"website_warehouse\", \"column_break_24\", \"on_backorder\", \"section_break_17\", \"column_break_27\", \"short_description\", \"web_long_description\", \"display_additional_information_section\", \"show_tabbed_section\", \"tabs\", \"offers_section\", \"offers\", \"section_break_6\", \"ranking\", \"set_meta_tags\", \"column_break_22\", \"website_item_groups\", \"website_content_section\", \"content_type\", \"full_width\", \"page_building_blocks\", \"jodit_editor\", \"website_content\", \"website_filters\", \"filter_by_application_type\", \"filter_by_power_unit_type\", \"column_break_53\", \"filter_by_attachment_type\", \"select_documents\", \"select_attachment_type\", \"custom_section_break_u8p43\", \"custom_get_faq_questions\", \"faq\", \"faq_group\", \"custom_specification\", \"custom_custom_section_break_u8p43\", \"website_specifications\", \"copy_from_item_group\", \"custom_measurements_diagram\", \"custom_related_items\", \"custom_section_break_hns7n\", \"custom_column_break_orp85\", \"custom_required_extras\", \"custom_section_break_tfguv\", \"custom_comsumables\", \"custom_section_break_4vrbt\", \"custom_accessories\", \"custom_section_break_gfdku\", \"custom_downloads\", \"custom_section_break_jnynw\", \"recommended_items\", \"custom_section_break_s85lp\", \"custom_seriescollection\", \"custom_compatibility\", \"custom_compatible_power_units\", \"custom_section_break_r61zj\", \"custom_compatible_linkage\", \"custom_section_break_2dol3\", \"custom_compatible_attachments\", \"custom_section_break_xowxj\", \"custom_compatible_brackets\"]"
  }
 ]

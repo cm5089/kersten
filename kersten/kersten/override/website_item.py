@@ -5,6 +5,25 @@ from kersten.kersten.doctype.website_itemgroup.website_itemgroup import get_pare
 from frappe import _
 from frappe.website.utils import clear_cache
 
+PLACEHOLDER_IMAGE = "/private/files/webstore_placeholder.png"
+
+# Human readable titles used for each section
+# Indetifier is used as section HTML ID
+# "IDENTIFIER": "HUMAN READABLE TITLE"
+SECTION_TITLES = {
+        "Consumables": "Consumables",
+        "RequiredExtras": "Required Extras",
+        "OptionalAccessories": "Optional Accessories",
+        "Downloads": "Downloads",
+        "SeriesCollection": "More from this Series",
+        "RelatedItems": "Related Items",
+        "CompatiblePowerUnits": "Compatible Power Units",
+        "CompatibleLinkage": "Compatible Linkage",
+        "CompatibleAttachments": "Compatible Attachments",
+        "CompatibleBrackets": "Compatible Brackets",
+    }
+
+
 
 class WebsiteItem(_WebsiteGenerator):
 	website = frappe._dict(
@@ -21,9 +40,24 @@ class WebsiteItem(_WebsiteGenerator):
 		# Load data for Jinga templates
 		context.override_page_builder = self.custom_override_page_builder
 		if self.custom_override_page_builder:
-			context.related_items_by_groups = self.group_and_filter_website_items(self.recommended_items)
-			context.compatible_items_by_groups = self.group_and_filter_website_items(self.custom_compatible_products)
 
+			context.SECTION_TITLES = SECTION_TITLES
+			# Map sections to field names in ERPNext and filter unpublished products
+			context.related_items_by_groups = {}
+			self.filter_website_items(context.related_items_by_groups, "Consumables", self.custom_comsumables)
+			self.filter_website_items(context.related_items_by_groups, "RequiredExtras", self.custom_required_extras)
+			self.filter_website_items(context.related_items_by_groups, "OptionalAccessories", self.custom_accessories)
+			self.filter_website_items(context.related_items_by_groups, "Downloads", self.custom_downloads)
+			self.filter_website_items(context.related_items_by_groups, "SeriesCollection", self.custom_seriescollection)
+			self.filter_website_items(context.related_items_by_groups, "RelatedItems", self.recommended_items)
+			context.compatible_items_by_groups = {}
+			self.filter_website_items(context.compatible_items_by_groups, "CompatiblePowerUnits", self.custom_compatible_power_units)
+			self.filter_website_items(context.compatible_items_by_groups, "CompatibleLinkage", self.custom_compatible_linkage)
+			self.filter_website_items(context.compatible_items_by_groups, "CompatibleAttachments", self.custom_compatible_attachments)
+			self.filter_website_items(context.compatible_items_by_groups, "CompatibleBrackets", self.custom_compatible_brackets)
+
+
+		# WebsiteItemGroup
 		website_itemgroup = None
 
 		if self.website_item_groups:
@@ -48,15 +82,11 @@ class WebsiteItem(_WebsiteGenerator):
 	def has_long_description(self):
 		return frappe.utils.strip_html(self.web_long_description or '') != ''
 
-	def group_and_filter_website_items(self, items):
-		published_recommended_items = [item for item in items if frappe.db.get_value("Website Item", item.website_item, "published")]
-		grouped_items = {}
-		for item in published_recommended_items:
-			group = item.custom_group if hasattr(item, "custom_group") else item.compatibility_type
-			if group not in grouped_items.keys():
-				grouped_items[group] = []
-			grouped_items[group].append(item.website_item)
-		return grouped_items
+	def filter_website_items(self, dict_to_append, group_name, items):
+		filtered_items = [item.website_item for item in items if frappe.db.get_value("Website Item", item.website_item, "published")]
+		if len(filtered_items) > 0:
+			dict_to_append[group_name] = filtered_items
+		return dict_to_append
 
 	def get_tabs(self):
 		tab_values = {}
