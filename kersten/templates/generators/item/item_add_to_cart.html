@@ -105,7 +105,7 @@
 					</a>
 					<button
 						data-item-code="{{item_code}}"
-						class="btn  btn-add-to-cart mr-2 w-30-40"
+						class="btn  btn-add-to-cart mr-2 w-40"
 					>
 						<span class="mr-2">
 							<svg class="icon icon-md">
@@ -120,6 +120,11 @@
 				{% if cart_settings.show_contact_us_button %}
 					{% include "templates/generators/item/item_inquiry.html" %}
 				{% endif %}
+
+				<!-- Fitment Wizard CTA -->
+			</div>
+			<div class="mb-4 d-flex">
+				<a class="btn btn-light mr-2 w-80" id="fitmentWizardShortcut" href="#FitmentWizard">🚜 Check if this fits your machine ↓</a>
 			</div>
 		</div>
 	</div>
