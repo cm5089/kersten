@@ -207,6 +207,8 @@ fixtures = [
             ["dt", "=", "Website Item"],
             "or",
             ["dt", "=", "Recommended Items"],
+            "or",
+            ["dt", "=", "Web Template"],
         ],
     },
     {
@@ -219,6 +221,8 @@ fixtures = [
             ["doc_type", "=", "Website Item"],
             "or",
             ["doc_type", "=", "Recommended Items"],
+            "or",
+            ["doc_type", "=", "Web Template"],
         ],
     },
 ]
