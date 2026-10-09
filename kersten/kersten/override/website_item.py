@@ -23,6 +23,17 @@ SECTION_TITLES = {
         "CompatibleBrackets": "Compatible Brackets",
     }
 
+# Label map for Web Template injection location labels.
+# Should correspond to Human Readable options on custom_page_section (Web Template)
+# "IDENTIFIER": "HUMAN READABLE OPTION"
+WEB_TEMPLATE_INJECTION_POINTS = {
+	"Above Button Section": "above_buttons",
+	"Below Button Section": "below_buttons",
+	"Below Description": "below_description",
+	"Below Specification": "below_specification",
+	"End of Page": "end_of_page",
+}
+
 
 
 class WebsiteItem(_WebsiteGenerator):
@@ -56,6 +67,8 @@ class WebsiteItem(_WebsiteGenerator):
 			self.filter_website_items(context.compatible_items_by_groups, "CompatibleAttachments", self.custom_compatible_attachments)
 			self.filter_website_items(context.compatible_items_by_groups, "CompatibleBrackets", self.custom_compatible_brackets)
 
+		# Locate Web Templates injected into this Website Item
+		context.web_templates = self.get_web_templates_by_section()
 
 		# WebsiteItemGroup
 		website_itemgroup = None
@@ -67,6 +80,39 @@ class WebsiteItem(_WebsiteGenerator):
 			website_itemgroup, from_item=True
 		)  # breadcumbs
 		return context
+
+	def get_web_templates_by_section(self):
+		# Combine Web Template results for this Webtie Item
+		templates_by_all = frappe.get_all(
+						"Web Template",
+						filters=[
+							["custom_activate_on_website_item_pages", "=", 1],
+							["custom_display_on_all_website_items", "=", 1]
+							],
+						fields=["name", "custom_page_section", "custom_weight"],
+					)
+		template_by_id = frappe.get_all(
+				"Web Template",
+				filters=[
+					["custom_activate_on_website_item_pages", "=", 1],
+					["custom_display_on_all_website_items", "=", 0],
+					["Recommended Items", "parentfield", "=", "custom_website_item_list"],
+					["Recommended Items", "website_item", "=", self.name],
+					],
+				fields=["name", "custom_page_section", "custom_weight"],
+			)
+
+		web_templates = template_by_id + templates_by_all
+		templates_by_section = {}
+		# Reformat queries into section headings and sort by weight
+		for template in web_templates:
+			section_name = WEB_TEMPLATE_INJECTION_POINTS.get(template.get("custom_page_section"))
+			if not section_name:
+				continue
+			templates_by_section.setdefault(section_name, []).append({"template": template["name"], "weight": template["custom_weight"]})
+		for section, templates in templates_by_section.items():
+			templates_by_section[section] = sorted(templates, key=lambda x: x["weight"], reverse=True)
+		return templates_by_section
 
 	def get_clean_route(self):
 		route = self.route
