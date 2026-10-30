@@ -122,6 +122,13 @@ class WebsiteItem(_WebsiteGenerator):
 			route = route[:-1]
 		return route
 
+	def get_card_price(self):
+		from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
+
+		payload = get_product_info_for_website(self.item_code, skip_quotation_creation=True)
+		price = ((payload or {}).get("product_info") or {}).get("price") or {}
+		return price.get("formatted_price_sales_uom") or price.get("formatted_price") or ""
+
 	def has_specification(self):
 		return (self.website_specifications is not None and len(self.website_specifications) > 0)
 
