@@ -1,9 +1,13 @@
 import frappe.utils
+from urllib.parse import quote
 from webshop.webshop.doctype.website_item.website_item import WebsiteItem as _WebsiteGenerator, update_index_for_item, invalidate_item_variants_cache_for_website
 import frappe
 from kersten.kersten.doctype.website_itemgroup.website_itemgroup import get_parent_item_groups
 from frappe import _
 from frappe.website.utils import clear_cache
+
+# Users with any of these roles get a product-title link to the Website Item desk form.
+DESK_EDITOR_ROLES = ("Kersten Administrator", "Website Manager", "System Manager")
 
 PLACEHOLDER_IMAGE = "/private/files/webstore_placeholder.png"
 
@@ -47,6 +51,7 @@ class WebsiteItem(_WebsiteGenerator):
 	def get_context(self, context):
 		context = super().get_context(context)
 		context.full_witdh = 1
+		context.website_item_desk_route = desk_route_for_editor(self.name)
 
 		# Load data for Jinga templates
 		context.override_page_builder = self.custom_override_page_builder
@@ -204,6 +209,15 @@ class WebsiteItem(_WebsiteGenerator):
 	def on_update(self):
 		invalidate_cache_for_web_item(self)
 		self.update_template_item()
+
+
+def desk_route_for_editor(name):
+	"""Desk form route for editors, or None for everyone else."""
+	if frappe.session.user == "Guest":
+		return None
+	if not set(DESK_EDITOR_ROLES).intersection(frappe.get_roles()):
+		return None
+	return "/desk/website-item/" + quote(name, safe="")
 
 
 def invalidate_cache_for_web_item(doc):
