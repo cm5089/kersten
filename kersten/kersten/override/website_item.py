@@ -27,6 +27,20 @@ SECTION_TITLES = {
         "CompatibleBrackets": "Compatible Brackets",
     }
 
+# Opening copy shown under each generated product-page section heading.
+SECTION_INTROS = {
+        "RequiredExtras": "Essential components, mounting frames, or conversion kits needed to connect and operate this product safely. Make sure to include these items if you do not already own them.",
+        "Consumables": "Replacement wear parts—such as brushes, blades, belts, and filters—that require periodic changing during routine maintenance to keep your machine running at peak performance.",
+        "OptionalAccessories": "Optional upgrades and add-ons designed to expand the capabilities, efficiency, or convenience of your equipment for specific tasks and working conditions.",
+        "Downloads": "Official operator manuals, spare parts lists, technical data sheets, and setup guides available to view or download for this product.",
+        "RelatedItems": "Alternative machines and attachments with comparable specifications or applications that may also suit your operational needs.",
+        "SeriesCollection": "Other models, working widths, and drive configurations within the same product family to help you find the exact size or specification for your setup.",
+        "CompatiblePowerUnits": "Tractors, ride-on mowers, loaders, and carrier vehicles approved to safely power and operate this attachment.",
+        "CompatibleLinkage": "Front linkages, A-frames, and hitch systems required to mount and lift this equipment onto your carrier vehicle.",
+        "CompatibleAttachments": "Implements and working tools that can be mounted to, driven by, or used directly alongside this machine.",
+        "CompatibleBrackets": "Specific mounting plates, quick-attach couplings, and adaptor brackets used to secure this equipment to your chosen carrier or linkage.",
+    }
+
 # Label map for Web Template injection location labels.
 # Should correspond to Human Readable options on custom_page_section (Web Template)
 # "IDENTIFIER": "HUMAN READABLE OPTION"
@@ -58,6 +72,7 @@ class WebsiteItem(_WebsiteGenerator):
 		if self.custom_override_page_builder:
 
 			context.SECTION_TITLES = SECTION_TITLES
+			context.SECTION_INTROS = SECTION_INTROS
 			# Map sections to field names in ERPNext and filter unpublished products
 			context.related_items_by_groups = {}
 			self.filter_website_items(context.related_items_by_groups, "Consumables", self.custom_comsumables)
