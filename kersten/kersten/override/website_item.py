@@ -1,9 +1,13 @@
 import frappe.utils
+from urllib.parse import quote
 from webshop.webshop.doctype.website_item.website_item import WebsiteItem as _WebsiteGenerator, update_index_for_item, invalidate_item_variants_cache_for_website
 import frappe
 from kersten.kersten.doctype.website_itemgroup.website_itemgroup import get_parent_item_groups
 from frappe import _
 from frappe.website.utils import clear_cache
+
+# Users with any of these roles get a product-title link to the Website Item desk form.
+DESK_EDITOR_ROLES = ("Kersten Administrator", "Website Manager", "System Manager")
 
 PLACEHOLDER_IMAGE = "/private/files/webstore_placeholder.png"
 
@@ -21,6 +25,20 @@ SECTION_TITLES = {
         "CompatibleLinkage": "Compatible Linkage",
         "CompatibleAttachments": "Compatible Attachments",
         "CompatibleBrackets": "Compatible Brackets",
+    }
+
+# Opening copy shown under each generated product-page section heading.
+SECTION_INTROS = {
+        "RequiredExtras": "Essential components, mounting frames, or conversion kits needed to connect and operate this product safely. Make sure to include these items if you do not already own them.",
+        "Consumables": "Replacement wear parts—such as brushes, blades, belts, and filters—that require periodic changing during routine maintenance to keep your machine running at peak performance.",
+        "OptionalAccessories": "Optional upgrades and add-ons designed to expand the capabilities, efficiency, or convenience of your equipment for specific tasks and working conditions.",
+        "Downloads": "Official operator manuals, spare parts lists, technical data sheets, and setup guides available to view or download for this product.",
+        "RelatedItems": "Alternative machines and attachments with comparable specifications or applications that may also suit your operational needs.",
+        "SeriesCollection": "Other models, working widths, and drive configurations within the same product family to help you find the exact size or specification for your setup.",
+        "CompatiblePowerUnits": "Tractors, ride-on mowers, loaders, and carrier vehicles approved to safely power and operate this attachment.",
+        "CompatibleLinkage": "Front linkages, A-frames, and hitch systems required to mount and lift this equipment onto your carrier vehicle.",
+        "CompatibleAttachments": "Implements and working tools that can be mounted to, driven by, or used directly alongside this machine.",
+        "CompatibleBrackets": "Specific mounting plates, quick-attach couplings, and adaptor brackets used to secure this equipment to your chosen carrier or linkage.",
     }
 
 # Label map for Web Template injection location labels.
@@ -47,12 +65,14 @@ class WebsiteItem(_WebsiteGenerator):
 	def get_context(self, context):
 		context = super().get_context(context)
 		context.full_witdh = 1
+		context.website_item_desk_route = desk_route_for_editor(self.name)
 
 		# Load data for Jinga templates
 		context.override_page_builder = self.custom_override_page_builder
 		if self.custom_override_page_builder:
 
 			context.SECTION_TITLES = SECTION_TITLES
+			context.SECTION_INTROS = SECTION_INTROS
 			# Map sections to field names in ERPNext and filter unpublished products
 			context.related_items_by_groups = {}
 			self.filter_website_items(context.related_items_by_groups, "Consumables", self.custom_comsumables)
@@ -121,6 +141,13 @@ class WebsiteItem(_WebsiteGenerator):
 		if route.endswith("/"):
 			route = route[:-1]
 		return route
+
+	def get_card_price(self):
+		from webshop.webshop.shopping_cart.product_info import get_product_info_for_website
+
+		payload = get_product_info_for_website(self.item_code, skip_quotation_creation=True)
+		price = ((payload or {}).get("product_info") or {}).get("price") or {}
+		return price.get("formatted_price_sales_uom") or price.get("formatted_price") or ""
 
 	def has_specification(self):
 		return (self.website_specifications is not None and len(self.website_specifications) > 0)
@@ -197,6 +224,15 @@ class WebsiteItem(_WebsiteGenerator):
 	def on_update(self):
 		invalidate_cache_for_web_item(self)
 		self.update_template_item()
+
+
+def desk_route_for_editor(name):
+	"""Desk form route for editors, or None for everyone else."""
+	if frappe.session.user == "Guest":
+		return None
+	if not set(DESK_EDITOR_ROLES).intersection(frappe.get_roles()):
+		return None
+	return "/desk/website-item/" + quote(name, safe="")
 
 
 def invalidate_cache_for_web_item(doc):
