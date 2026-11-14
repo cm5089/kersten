@@ -24,7 +24,7 @@ SECTION_TITLES = {
         "CompatiblePowerUnits": "Compatible Power Units",
         "CompatibleLinkage": "Compatible Linkage",
         "CompatibleAttachments": "Compatible Attachments",
-        "CompatibleBrackets": "Compatible Brackets",
+        "CompatibleBrackets": "Compatible Brackets (ABR)",
     }
 
 # Opening copy shown under each generated product-page section heading.
@@ -38,7 +38,7 @@ SECTION_INTROS = {
         "CompatiblePowerUnits": "Tractors, ride-on mowers, loaders, and carrier vehicles approved to safely power and operate this attachment.",
         "CompatibleLinkage": "Front linkages, A-frames, and hitch systems required to mount and lift this equipment onto your carrier vehicle.",
         "CompatibleAttachments": "Implements and working tools that can be mounted to, driven by, or used directly alongside this machine.",
-        "CompatibleBrackets": "Specific mounting plates, quick-attach couplings, and adaptor brackets used to secure this equipment to your chosen carrier or linkage.",
+        "CompatibleBrackets": "Specific mounting plates, quick-attach couplings, and adaptor brackets used to secure this equipment to your chosen carrier or linkage.  ABR Brackets are required to mount the attachment onto various types of linkage.",
     }
 
 # Label map for Web Template injection location labels.
